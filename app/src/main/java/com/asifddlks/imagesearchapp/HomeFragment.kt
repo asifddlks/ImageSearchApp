@@ -1,14 +1,17 @@
 package com.asifddlks.imagesearchapp
 
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.View
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.paging.LoadState
+import androidx.recyclerview.widget.GridLayoutManager
 import com.asifddlks.imagesearchapp.databinding.HomeFragmentBinding
 import com.asifddlks.imagesearchapp.model.ImageModel
 import com.asifddlks.imagesearchapp.viewadapter.ImageAdapter
@@ -19,9 +22,10 @@ class HomeFragment : Fragment(R.layout.home_fragment),
     ImageAdapter.OnItemClickListener {
 
     private val viewModel by viewModels<HomeViewModel>()
-
     private var _binding: HomeFragmentBinding? = null
+    private var layoutManager: GridLayoutManager? = null
     private val binding get() = _binding!!
+    var selectedItem = 0
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -29,9 +33,11 @@ class HomeFragment : Fragment(R.layout.home_fragment),
         _binding = HomeFragmentBinding.bind(view)
 
         val adapter = ImageAdapter(this)
+        layoutManager = GridLayoutManager(requireContext(), 3)
 
         binding.apply {
             recyclerView.setHasFixedSize(true)
+            recyclerView.layoutManager = layoutManager
             recyclerView.itemAnimator = null
             recyclerView.adapter = adapter
             buttonRetry.setOnClickListener { adapter.retry() }
@@ -75,6 +81,7 @@ class HomeFragment : Fragment(R.layout.home_fragment),
         inflater.inflate(R.menu.menu_home, menu)
 
         val searchItem = menu.findItem(R.id.action_search)
+        val optionItem = menu.findItem(R.id.action_option)
         val searchView = searchItem.actionView as SearchView
 
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
@@ -92,6 +99,35 @@ class HomeFragment : Fragment(R.layout.home_fragment),
                 return true
             }
         })
+
+        optionItem.setOnMenuItemClickListener {
+
+            val spanCountList = arrayOf("2", "3", "4")
+
+            val builder = AlertDialog.Builder(requireContext())
+            builder.setTitle("Select number of columns")
+            builder.setSingleChoiceItems(
+                spanCountList,
+                selectedItem
+            ) { dialogInterface: DialogInterface, item: Int ->
+                selectedItem = item
+            }
+            builder.setPositiveButton(R.string.set) { dialogInterface: DialogInterface, p1: Int ->
+                layoutManager =
+                    GridLayoutManager(requireContext(), spanCountList[selectedItem].toInt())
+                binding.recyclerView.layoutManager = layoutManager
+                binding.recyclerView.recycledViewPool.clear()
+                dialogInterface.dismiss()
+            }
+            /*builder.setNegativeButton(R.string.cancel) { dialogInterface: DialogInterface, p1: Int ->
+                dialogInterface.dismiss()
+            }*/
+            builder.create()
+            builder.show();
+
+            true
+        }
+
     }
 
     override fun onDestroyView() {
