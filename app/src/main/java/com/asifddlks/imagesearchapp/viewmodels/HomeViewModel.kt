@@ -1,4 +1,4 @@
-package com.asifddlks.imagesearchapp
+package com.asifddlks.imagesearchapp.viewmodels
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel

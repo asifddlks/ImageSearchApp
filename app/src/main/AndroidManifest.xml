@@ -14,7 +14,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ImageSearchApp">
         <activity
-            android:name=".FullscreenImageActivity"
+            android:name=".views.FullscreenImageActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:exported="false"
             android:label="@string/title_activity_fullscreen_image"

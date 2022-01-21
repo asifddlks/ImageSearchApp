@@ -1,4 +1,4 @@
-package com.asifddlks.imagesearchapp
+package com.asifddlks.imagesearchapp.views
 
 import android.content.DialogInterface
 import android.os.Bundle
@@ -12,10 +12,12 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
+import com.asifddlks.imagesearchapp.R
 import com.asifddlks.imagesearchapp.databinding.HomeFragmentBinding
 import com.asifddlks.imagesearchapp.model.ImageModel
 import com.asifddlks.imagesearchapp.viewadapter.ImageAdapter
 import com.asifddlks.imagesearchapp.viewadapter.ImageLoadStateAdapter
+import com.asifddlks.imagesearchapp.viewmodels.HomeViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

@@ -10,10 +10,10 @@ import androidx.core.app.ActivityOptionsCompat
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.asifddlks.imagesearchapp.FullscreenImageActivity
 import com.asifddlks.imagesearchapp.R
 import com.asifddlks.imagesearchapp.databinding.ItemImageCellBinding
 import com.asifddlks.imagesearchapp.model.ImageModel
+import com.asifddlks.imagesearchapp.views.FullscreenImageActivity
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.google.gson.Gson

@@ -1,9 +1,10 @@
-package com.asifddlks.imagesearchapp
+package com.asifddlks.imagesearchapp.views
 
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import com.asifddlks.imagesearchapp.R
 import com.asifddlks.imagesearchapp.databinding.ActivityFullscreenImageBinding
 import com.asifddlks.imagesearchapp.model.ImageModel
 import com.asifddlks.imagesearchapp.plugin.OnSwipeTouchListener

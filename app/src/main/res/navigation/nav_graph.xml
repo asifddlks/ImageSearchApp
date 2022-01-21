@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.asifddlks.imagesearchapp.HomeFragment"
+        android:name="com.asifddlks.imagesearchapp.views.HomeFragment"
         android:label="Image Search"
         tools:layout="@layout/home_fragment" />
 </navigation>
