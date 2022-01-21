@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.asifddlks.imagesearchapp.databinding.HomeFragmentBinding
 import com.asifddlks.imagesearchapp.model.ImageModel
 import com.asifddlks.imagesearchapp.viewadapter.ImageAdapter
+import com.asifddlks.imagesearchapp.viewadapter.ImageLoadStateAdapter
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -33,13 +34,17 @@ class HomeFragment : Fragment(R.layout.home_fragment),
         _binding = HomeFragmentBinding.bind(view)
 
         val adapter = ImageAdapter(this)
-        layoutManager = GridLayoutManager(requireContext(), 3)
+        layoutManager = GridLayoutManager(requireContext(), 2)
 
         binding.apply {
             recyclerView.setHasFixedSize(true)
             recyclerView.layoutManager = layoutManager
             recyclerView.itemAnimator = null
-            recyclerView.adapter = adapter
+
+            recyclerView.adapter = adapter.withLoadStateHeaderAndFooter(
+                header = ImageLoadStateAdapter { adapter.retry() },
+                footer = ImageLoadStateAdapter { adapter.retry() }
+            )
             buttonRetry.setOnClickListener { adapter.retry() }
         }
 
