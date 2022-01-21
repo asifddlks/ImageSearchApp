@@ -33,7 +33,7 @@ class HomeFragment : Fragment(R.layout.home_fragment),
 
         _binding = HomeFragmentBinding.bind(view)
 
-        val adapter = ImageAdapter(this)
+        val adapter = ImageAdapter(requireActivity(), requireContext(), this)
         layoutManager = GridLayoutManager(requireContext(), 2)
 
         binding.apply {
@@ -78,6 +78,8 @@ class HomeFragment : Fragment(R.layout.home_fragment),
     override fun onItemClick(photo: ImageModel) {
         //val action = GalleryFragmentDirections.actionGalleryFragmentToDetailsFragment(photo)
         //findNavController().navigate(action)
+
+        //adap
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

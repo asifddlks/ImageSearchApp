@@ -2,4 +2,7 @@
     <string name="app_name">ImageSearchApp</string>
     <string name="set">Set</string>
     <string name="cancel">Cancel</string>
+    <string name="title_activity_fullscreen_image">FullscreenImageActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
 </resources>

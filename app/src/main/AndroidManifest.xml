@@ -14,6 +14,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ImageSearchApp">
         <activity
+            android:name=".FullscreenImageActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:exported="false"
+            android:label="@string/title_activity_fullscreen_image"
+            android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
