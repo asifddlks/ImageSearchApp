@@ -1,31 +1,101 @@
 package com.asifddlks.imagesearchapp
 
 import android.os.Bundle
-import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
 import android.view.View
-import android.view.ViewGroup
+import androidx.appcompat.widget.SearchView
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
+import androidx.paging.LoadState
+import com.asifddlks.imagesearchapp.databinding.HomeFragmentBinding
+import com.asifddlks.imagesearchapp.model.ImageModel
+import com.asifddlks.imagesearchapp.viewadapter.ImageAdapter
+import dagger.hilt.android.AndroidEntryPoint
 
-class HomeFragment : Fragment() {
+@AndroidEntryPoint
+class HomeFragment : Fragment(R.layout.home_fragment),
+    ImageAdapter.OnItemClickListener {
 
-    companion object {
-        fun newInstance() = HomeFragment()
+    private val viewModel by viewModels<HomeViewModel>()
+
+    private var _binding: HomeFragmentBinding? = null
+    private val binding get() = _binding!!
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        _binding = HomeFragmentBinding.bind(view)
+
+        val adapter = ImageAdapter(this)
+
+        binding.apply {
+            recyclerView.setHasFixedSize(true)
+            recyclerView.itemAnimator = null
+            recyclerView.adapter = adapter
+            buttonRetry.setOnClickListener { adapter.retry() }
+        }
+
+        viewModel.photos.observe(viewLifecycleOwner) {
+            adapter.submitData(viewLifecycleOwner.lifecycle, it)
+        }
+
+        adapter.addLoadStateListener { loadState ->
+            binding.apply {
+                progressBar.isVisible = loadState.source.refresh is LoadState.Loading
+                recyclerView.isVisible = loadState.source.refresh is LoadState.NotLoading
+                buttonRetry.isVisible = loadState.source.refresh is LoadState.Error
+                textViewError.isVisible = loadState.source.refresh is LoadState.Error
+
+                // empty view
+                if (loadState.source.refresh is LoadState.NotLoading &&
+                    loadState.append.endOfPaginationReached &&
+                    adapter.itemCount < 1
+                ) {
+                    recyclerView.isVisible = false
+                    textViewEmpty.isVisible = true
+                } else {
+                    textViewEmpty.isVisible = false
+                }
+            }
+        }
+
+        setHasOptionsMenu(true)
     }
 
-    private lateinit var viewModel: HomeViewModel
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.home_fragment, container, false)
+    override fun onItemClick(photo: ImageModel) {
+        //val action = GalleryFragmentDirections.actionGalleryFragmentToDetailsFragment(photo)
+        //findNavController().navigate(action)
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
-        // TODO: Use the ViewModel
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+
+        inflater.inflate(R.menu.menu_home, menu)
+
+        val searchItem = menu.findItem(R.id.action_search)
+        val searchView = searchItem.actionView as SearchView
+
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+
+                if (query != null) {
+                    binding.recyclerView.scrollToPosition(0)
+                    viewModel.searchPhotos(query)
+                    searchView.clearFocus()
+                }
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                return true
+            }
+        })
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 }

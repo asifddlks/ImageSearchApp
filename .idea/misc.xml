@@ -4,11 +4,13 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="app/src/main/res/drawable/gradient.xml" value="0.21944444444444444" />
+        <entry key="app/src/main/res/drawable/ic_column.xml" value="0.24512820512820513" />
         <entry key="app/src/main/res/drawable/ic_error.xml" value="0.21944444444444444" />
         <entry key="app/src/main/res/drawable/ic_search.xml" value="0.21944444444444444" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.1503623188405797" />
-        <entry key="app/src/main/res/layout/home_fragment.xml" value="0.1503623188405797" />
+        <entry key="app/src/main/res/layout/home_fragment.xml" value="0.55" />
         <entry key="app/src/main/res/layout/item_image_cell.xml" value="0.1503623188405797" />
+        <entry key="app/src/main/res/menu/menu_home.xml" value="0.2328125" />
       </map>
     </option>
   </component>
